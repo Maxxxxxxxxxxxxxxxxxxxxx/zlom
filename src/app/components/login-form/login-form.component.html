@@ -1,5 +1,15 @@
-<div class="login">
-  <form action="" class="login-form">
-    
-  </form>
-</div>
+<form action="" class="login-form m-0" [formGroup]="loginForm">
+  <centered-wrapper>
+    <mat-form-field class="example-full-width">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Your username" formControlName="username" />
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="example@mail.com" formControlName="email" />
+    </mat-form-field>
+  </centered-wrapper>
+  <centered-wrapper>
+    <button (click)="test()" mat-flat-button>Submit</button>
+  </centered-wrapper>
+</form>
