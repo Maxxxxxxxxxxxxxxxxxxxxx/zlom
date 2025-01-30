@@ -12,7 +12,7 @@ import {
 
 interface AuthData {
   username: FormControl<string | null>;
-  email: FormControl<string | null>;
+  password: FormControl<string | null>;
 }
 
 @Component({
@@ -34,14 +34,13 @@ export class LoginFormComponent {
         Validators.minLength(3),
         Validators.required,
       ]),
-      email: new FormControl('', Validators.email),
+      password: new FormControl('', [
+        Validators.minLength(3),
+        Validators.required,
+      ]),
     },
     { updateOn: 'change' }
   );
-
-  get email() {
-    return this.loginForm.controls.email;
-  }
 
   get username() {
     return this.loginForm.controls.username;
@@ -50,7 +49,7 @@ export class LoginFormComponent {
   test() {
     console.log(
       this.loginForm.controls.username.value,
-      this.loginForm.controls.email.value
+      this.loginForm.controls.password.value
     );
   }
 }
