@@ -1,4 +1,5 @@
 @use "@ngxpert/hot-toast/src/styles/styles.scss";
+@use "@angular/material" as mat;
 
 @tailwind base;
 @tailwind components;
@@ -6,10 +7,17 @@
 
 app-root {
   z-index: 1;
+  height: 100%;
 }
 app-toast,
 .toast-class {
   z-index: 2;
+}
+
+:root {
+  --ui-base-dark: #220646;
+  --ui-base-dark-darker: #15012e;
+  --ui-base-red: #e03386;
 }
 
 html,
@@ -17,6 +25,8 @@ body {
   height: 100%;
 }
 body {
-  margin: 1rem;
+  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  // background-color: rgb(244, 244, 244);
+  background-color: #f0f0f0;
 }
