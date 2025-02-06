@@ -1,19 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
-import { HotToastService } from '@ngxpert/hot-toast';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet, ToolbarComponent],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss',
 })
-export class MainComponent implements OnInit {
-  public constructor(private toast: HotToastService) {}
-
-  ngOnInit(): void {
-    this.toast.success('dupa');
-  }
-}
+export class MainComponent {}
