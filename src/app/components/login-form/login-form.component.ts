@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CenteredWrapperComponent } from '../../ui/centered/centered-wrapper.component';
@@ -30,14 +30,11 @@ interface AuthData {
     ReactiveFormsModule,
   ],
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent {
-  public constructor(
-    private authService: AuthService,
-    private toast: HotToastService,
-    private router: Router
-  ) {}
+  private authService: AuthService = inject(AuthService);
+  private toast: HotToastService = inject(HotToastService);
+  private router: Router = inject(Router);
 
   loginForm: FormGroup<AuthData> = new FormGroup(
     {
@@ -74,7 +71,7 @@ export class LoginFormComponent {
         next: (res) => {
           this.toast.success('Logged in!');
           console.log(res.status);
-          this.router.navigate(['main/dashboard']);
+          this.router.navigate(['main']);
         },
         error: (res) => {
           this.toast.error(res.error.message);
