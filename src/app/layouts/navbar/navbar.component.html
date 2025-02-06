@@ -1,1 +1,13 @@
-<p>navbar works!</p>
+<div
+  class="nav bg-ui-base-dark text-white text-sm max-w-[14rem] left-0 top-0 h-screen min-w-[13rem]"
+>
+  <div class="logo-wrapper p-5 pt-10 flex flex-row items-center">
+    <app-svg-logo clas="w-15 h-15" />
+    <div class="ml-3 font-thin text-lg">Złom CMS</div>
+  </div>
+  <div class="mt-20 flex flex-col gap-5">
+    @for (link of navLinks; track link) {
+    <app-nav-link [value]="link.title" [path]="link.path"></app-nav-link>
+    }
+  </div>
+</div>
