@@ -14,7 +14,13 @@ export const routes: Routes = [
   {
     path: 'main',
     component: MainComponent,
-    pathMatch: 'full',
-    children: [{ path: 'dashboard', component: DashboardComponent }],
+    children: [
+      { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
+      { path: 'users', component: DashboardComponent },
+      { path: 'cars', component: DashboardComponent },
+      { path: 'settings', component: DashboardComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '**', redirectTo: 'dashboard' },
+    ],
   },
 ];
