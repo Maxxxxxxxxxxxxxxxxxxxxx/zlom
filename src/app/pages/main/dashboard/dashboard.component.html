@@ -1,12 +1,29 @@
-<div class="">
-  <mat-card
-    class="mb-32 justify-center justify-self-center p-1 shadow-lg bg-white rounded-lg mx-56"
-  >
-    <mat-card-header class="flex space-x-4">
-      <mat-card-title class="text-lg font-bold self-center"
-        >Dashboard</mat-card-title
+<div class="m-5 h-fill">
+  <div class="card rounded-s py-5 shadow-sm bg-white">
+    <div class="flex flex-col">
+      <div
+        class="upper flex flex-row items-center gap-5 justify-between mx-5 mb-5"
       >
-    </mat-card-header>
-    <mat-card-content class="mt-5"> content</mat-card-content>
-  </mat-card>
+        <div class="upper-left">
+          <div class="font-thin text-lg">Items catalogue</div>
+        </div>
+        <div class="upper-right">
+          <app-search placeholder="Search list..."></app-search>
+        </div>
+      </div>
+      <div class="table flex-grow">
+        <app-table [elements]="this.dataSource" [pageIndex]="pageIndex" [keysToDisplay]="keysToDisplay">
+        </app-table>
+      </div>
+      <mat-paginator
+        class="bg-none"
+        [length]="itemsLength"
+        [pageSize]="itemsPerPage"
+        [pageIndex]="this.pageIndex"
+        (page)="onPageChanged($event)"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  </div>
 </div>
