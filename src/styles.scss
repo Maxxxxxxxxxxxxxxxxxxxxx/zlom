@@ -1,5 +1,4 @@
 @use "@ngxpert/hot-toast/src/styles/styles.scss";
-@use "@angular/material" as mat;
 
 @tailwind base;
 @tailwind components;
@@ -17,7 +16,13 @@ app-toast,
 :root {
   --ui-base-dark: #220646;
   --ui-base-dark-darker: #15012e;
+  --ui-base-light: #553c9a;
+
+  --modal-bg: #00000061;
+
   --ui-base-red: #e03386;
+  --ui-base-font-light: #a0aec0;
+  --ui-base-font-dark: #4a5568;
 }
 
 html,
