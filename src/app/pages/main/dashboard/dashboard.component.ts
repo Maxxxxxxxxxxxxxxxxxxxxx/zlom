@@ -2,10 +2,7 @@ import {
   Component,
   HostListener,
   inject,
-  OnChanges,
   OnInit,
-  signal,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -14,20 +11,9 @@ import { MatTableModule } from '@angular/material/table';
 import { SearchComponent } from '../../../ui/search/search.component';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { TableComponent } from '../../../ui/table/table.component';
-import { CarEntryDTO } from '../../../dto/car-entry.dto';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../service/auth.service';
 import { CarEntryService } from '../../../service/car-entry.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { ModalComponent } from '../../../components/modal/modal.component';
 
 @Component({
   selector: 'app-dashboard',

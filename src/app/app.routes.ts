@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/main/dashboard/dashboard.component';
 import { MainComponent } from './layouts/main/main.component';
 import { authGuard } from './auth.guard';
 import { UsersComponent } from './pages/main/users/users.component';
+import { SettingsComponent } from './pages/main/settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -18,8 +19,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
       { path: 'users', component: UsersComponent },
-      { path: 'cars', component: DashboardComponent },
-      { path: 'settings', component: DashboardComponent },
+      { path: 'settings', component: SettingsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],

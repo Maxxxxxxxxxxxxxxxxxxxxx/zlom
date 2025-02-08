@@ -32,7 +32,6 @@ export class NavbarComponent {
   navLinks: NavLink[] = [
     { title: 'Dashboard', path: '/main/dashboard', active: true },
     { title: 'User management', path: '/main/users', active: false },
-    { title: 'Cars', path: '/main/cars', active: false },
     { title: 'Settings', path: '/main/settings', active: false },
   ];
 
