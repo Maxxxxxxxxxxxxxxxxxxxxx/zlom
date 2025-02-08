@@ -1,0 +1,35 @@
+<table class="font-thin text-ui-base-font-dark w-full table-fixed">
+  <tr class="bg-slate-100">
+    <th class="font-thin py-1 text-m min-w-14">#</th>
+    @for (key of this.keysToDisplay; track key) {
+    <th class="font-thin py-1 text-m">{{ key }}</th>
+    }
+    <th class="font-thin py-1 text-m">actions</th>
+  </tr>
+  @for (element of this.elements; track $index; let i = $index) {
+  <tr class="mt-5">
+    <td
+      class="text-center border-b-2 border-slate-100 text-gray-500 py-3 text-sm text-nowrap"
+    >
+      {{ i + 1 + pageIndex * 10 }}
+    </td>
+    @for(key of this.keysToDisplay; let i = $index; track key) {
+    <td
+      class="text-center border-b-2 border-slate-100 text-gray-500 py-3 text-sm text-nowrap"
+    >
+      {{ element[key] }}
+    </td>
+    }
+    <td
+      class="text-center border-b-2 border-slate-100 text-gray-500 py-3 text-sm min-w-32 text-nowrap"
+    >
+      <div class="flex gap-5 justify-center">
+        <div class="hover:cursor-pointer" (click)="openDialog(element)">
+          Edit
+        </div>
+        <div class="hover:cursor-pointer">Delete</div>
+      </div>
+    </td>
+  </tr>
+  }
+</table>
