@@ -3,7 +3,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CenteredWrapperComponent } from '../../ui/centered/centered-wrapper.component';
 import {
-  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -13,7 +12,7 @@ import { AuthService } from '../../service/auth.service';
 import AuthRequest from '../../dto/auth-request.dto';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, delay, of, switchMap } from 'rxjs';
+import { debounceTime } from 'rxjs';
 
 interface AuthData {
   username: FormControl<string | null>;
@@ -70,12 +69,10 @@ export class LoginFormComponent {
       .subscribe({
         next: (res) => {
           this.toast.success('Logged in!');
-          console.log(res.status);
           this.router.navigate(['main']);
         },
         error: (res) => {
-          this.toast.error(res.error.message);
-          console.log(res.status);
+          this.toast.error(res.error.message ?? 'An error has occurred!');
         },
       });
   }
