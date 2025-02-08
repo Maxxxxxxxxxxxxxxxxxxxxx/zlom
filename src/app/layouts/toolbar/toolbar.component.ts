@@ -8,8 +8,4 @@ import { FormsModule } from '@angular/forms';
   imports: [SearchComponent, FormsModule],
   templateUrl: './toolbar.component.html',
 })
-export class ToolbarComponent {
-
-  
-  public searchPlaceholder: string = 'Search all...';
-}
+export class ToolbarComponent {}
