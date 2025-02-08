@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts}"],
+  content: ["./src/**/*.{html,ts}", "./src/app/ui/**/*.{html,ts}"],
   theme: {
     extend: {
       colors: {
@@ -29,10 +29,10 @@ module.exports = {
         },
       },
       animation: {
-        fadeIn: "fadeIn 0.5s ease-out",
-        fadeOut: "fadeOut 0.5s ease-out",
-        grow: "grow 0.4s ease-out",
-        shrink: "shrink 0.4s ease-out",
+        fadeIn: "fadeIn 0.2s ease-in-out",
+        fadeOut: "fadeOut 0.2s ease-in-out",
+        grow: "grow 0.1s ease-in-out",
+        shrink: "shrink 0.4s ease-in-out",
       },
     },
     plugins: [],
