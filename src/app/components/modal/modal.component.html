@@ -1,0 +1,34 @@
+<!-- <div
+  class="flex modal-bg absolute h-svh w-svh bg-modal-bg content-center items-center justify-center"
+> -->
+<!-- <div class="card rounded-lg size-[50%] h-[80%] py-5 shadow-sm bg-white"> -->
+<div class="flex flex-col">
+  <div
+    class="upper flex flex-row items-center gap-5 justify-between mx-5 pb-3 border-b-[1px] border-gray-200"
+  >
+    <div class="font-thin text-lg">{{ data.title }}</div>
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Close window"
+      fontIcon="close"
+      class="hover:cursor-pointer"
+      (click)="closeModal()"
+    ></mat-icon>
+  </div>
+
+  <div class="lower flex flex-col mx-5">
+    @for (key of this.getObjectKeys; track $index) {
+    <div
+      class="column flex font-light text-sm flex-row border-b-[1px] border-gray-200 py-2"
+    >
+      <div class="key min-w-[40%]">{{ key }}</div>
+      <div class="column-right flex flex-row gap-3 justify-between flex-grow">
+        <div class="value">{{ this.data.object[key] }}</div>
+        <button>edit</button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+<!-- </div> -->
+<!-- </div> -->
