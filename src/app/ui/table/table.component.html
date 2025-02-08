@@ -24,10 +24,12 @@
       class="text-center border-b-2 border-slate-100 text-gray-500 py-3 text-sm min-w-32 text-nowrap"
     >
       <div class="flex gap-5 justify-center">
-        <div class="hover:cursor-pointer" (click)="openDialog(element)">
+        <div class="hover:cursor-pointer" (click)="openDialog(element, 'car')">
           Edit
         </div>
-        <div class="hover:cursor-pointer">Delete</div>
+        <div class="hover:cursor-pointer" (click)="deleteElement(123)">
+          Delete
+        </div>
       </div>
     </td>
   </tr>

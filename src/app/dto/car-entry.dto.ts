@@ -1,19 +1,19 @@
-export interface CarEntryDTO {
-  readonly id: number;
-  readonly title: string;
-  readonly location: string;
-  readonly price: number;
-  readonly entryDate: string;
-  readonly isDamaged: boolean;
-  readonly make: string;
-  readonly model: string;
-  readonly engine: string;
-  readonly carWeight: string;
-  readonly carType: string;
+export type CarEntryDTO = {
+  readonly id: number | null;
+  readonly title: string | null;
+  readonly location: string | null;
+  readonly price: number | null;
+  readonly entryDate: string | null;
+  readonly isDamaged: boolean | null;
+  readonly make: string | null;
+  readonly model: string | null;
+  readonly engine: string | null;
+  readonly carWeight: string | null;
+  readonly carType: string | null;
   readonly metadata?: {
-    readonly dateAdded: string;
-    readonly dateEdited: string;
-    readonly addedBy: number;
-    readonly editedBy: number;
+    readonly dateAdded: string | null;
+    readonly dateEdited: string | null;
+    readonly addedBy: number | null;
+    readonly editedBy: number | null;
   };
-}
+};

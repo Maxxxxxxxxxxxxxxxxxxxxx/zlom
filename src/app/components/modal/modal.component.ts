@@ -1,14 +1,8 @@
-import { Component, inject, input, Input } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { DialogConfig, DialogService } from '../../service/dialog.service';
+import { Component, inject, OnChanges, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { CarViewFormComponent } from './car-view-form/car-view-form.component';
+import { CarEntryDTO } from '../../dto/car-entry.dto';
 
 const carEntry = {
   id: 1,
@@ -27,18 +21,33 @@ const carEntry = {
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, CarViewFormComponent],
   templateUrl: './modal.component.html',
 })
-export class ModalComponent {
-  readonly dialogRef = inject(MatDialogRef<ModalComponent>);
-  readonly data = inject<any>(MAT_DIALOG_DATA);
+export class ModalComponent implements OnInit {
+  private dialogService: DialogService = inject(DialogService);
 
-  get getObjectKeys() {
-    return Object.keys(this.data.object);
+  config: DialogConfig | null = null;
+  isVisible: boolean = false;
+
+  ngOnInit(): void {
+    this.dialogService.config.subscribe((config) => {
+      return config && this.openModal(config);
+    });
+  }
+
+  private openModal(config: DialogConfig) {
+    this.config = {
+      title: config.title,
+      object: config.object,
+      type: config.type,
+    };
+
+    this.isVisible = true;
   }
 
   public closeModal(): void {
-    this.dialogRef.close();
+    this.dialogService.resetConfig();
+    this.isVisible = false;
   }
 }
