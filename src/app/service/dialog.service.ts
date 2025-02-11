@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { CarEntryDTO } from '../dto/car-entry.dto';
 
-export type DialogContentType = 'car' | 'user';
+export type DialogContentType = 'car' | 'user' | 'confirm';
 
 export interface DialogConfig {
   readonly title?: string;
   readonly object?: any;
-  readonly type: DialogContentType;
+  readonly type?: DialogContentType;
+  readonly close?: boolean;
+  readonly confirmWindowData?: {
+    readonly label: string;
+    readonly callback: () => any;
+  };
 }
 
 @Injectable({
@@ -20,8 +24,23 @@ export class DialogService {
     return this.config$.asObservable();
   }
 
+  confirm(title: string, label: string, callback: () => any): void {
+    this.config$.next({
+      type: 'confirm',
+      title,
+      confirmWindowData: {
+        label,
+        callback,
+      },
+    });
+  }
+
   open(config: DialogConfig): void {
     this.config$.next(config);
+  }
+
+  close(): void {
+    this.config$.next(null);
   }
 
   resetConfig(): void {

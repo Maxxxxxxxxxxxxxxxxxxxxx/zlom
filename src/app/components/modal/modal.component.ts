@@ -3,6 +3,7 @@ import { Component, inject, OnChanges, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CarViewFormComponent } from './car-view-form/car-view-form.component';
 import { CarEntryDTO } from '../../dto/car-entry.dto';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 const carEntry = {
   id: 1,
@@ -21,7 +22,7 @@ const carEntry = {
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatIconModule, CarViewFormComponent],
+  imports: [MatIconModule, CarViewFormComponent, ConfirmModalComponent],
   templateUrl: './modal.component.html',
 })
 export class ModalComponent implements OnInit {
@@ -32,14 +33,19 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogService.config.subscribe((config) => {
-      return config && this.openModal(config);
+      return this.openModal(config);
     });
   }
 
-  private openModal(config: DialogConfig) {
+  private openModal(config: DialogConfig | null) {
+    if (config === null) {
+      this.isVisible = false;
+      return;
+    }
+
     this.config = {
-      title: config.title,
-      object: config.object,
+      title: config.title ?? '',
+      object: config.object ?? {},
       type: config.type,
     };
 

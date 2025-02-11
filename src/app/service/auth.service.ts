@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '../../environment/environment';
-import AuthRequest from '../dto/auth-request.dto';
+import AuthRequest from '../dto/bodies/auth-request.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,6 @@ import AuthRequest from '../dto/auth-request.dto';
 export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
   private isAuthenticated = false;
-  private token = 'Bearer token';
 
   // constructor() {
   //   this.isAuthenticated = !!localStorage.getItem.token;
@@ -20,8 +19,12 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
+  setToken(token: string) {
+    localStorage.setItem('token', `Bearer ${token}`);
+  }
+
   logout(): void {
-    localStorage.removeItem(this.token);
+    localStorage.removeItem('token');
     this.isAuthenticated = false;
   }
 

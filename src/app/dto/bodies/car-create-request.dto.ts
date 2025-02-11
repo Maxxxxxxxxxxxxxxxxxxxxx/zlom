@@ -1,5 +1,4 @@
-export type CarEntryDTO = {
-  readonly id?: number;
+export type CarCreateRequest = {
   readonly title?: string | null;
   readonly location?: string | null;
   readonly price?: number | null;
@@ -10,10 +9,4 @@ export type CarEntryDTO = {
   readonly engine?: string | null;
   readonly carWeight?: number | null;
   readonly carType?: string | null;
-  readonly metadata?: {
-    readonly dateAdded: string | null;
-    readonly dateEdited: string | null;
-    readonly addedBy: number | null;
-    readonly editedBy: number | null;
-  };
 };

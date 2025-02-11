@@ -1,0 +1,22 @@
+<div class="flex flex-col justify-center mx-5">
+  <div class="content">
+    {{ label }}
+  </div>
+  <div class="font-light text-center py-8 border-b-[1px] border-slate-200">
+    Are you sure you want to proceed?
+  </div>
+  <div class="flex flex-row gap-1 justify-end mt-5">
+    <div
+      class="rounded-sm text-center text-sm font-light bg-slate-300 hover:cursor-pointer p-1.5 text-black"
+      (click)="cancel()"
+    >
+      Cancel
+    </div>
+    <div
+      class="rounded-sm text-center text-sm font-light bg-ui-base-red hover:cursor-pointer p-1.5 text-white"
+      (click)="confirm()"
+    >
+      Confirm
+    </div>
+  </div>
+</div>

@@ -1,26 +1,65 @@
-<div class="lower flex flex-col mx-5 flex-grow justify-between">
-  <div class="content">
+<form
+  class="lower flex flex-col mx-5 flex-grow justify-between"
+  [formGroup]="carForm"
+>
+  <div class="content min-w-[400px] mb-2">
     @for (key of carKeys; track $index) { @if (key != 'metadata') {
     <div
       class="row flex font-light text-sm flex-row border-b-[1px] border-gray-200 py-2"
     >
       <div class="key min-w-[40%]">{{ key }}</div>
       <div class="column-right flex flex-row gap-3 justify-between flex-grow">
-        <div class="value">{{ getValue(key) }}</div>
-        @if (key != 'id') { <button>edit</button> }
+        @switch (key) { @case ('isDamaged') {
+        <input
+          type="checkbox"
+          formControlName="isDamaged"
+          [value]="getFormValue(key)"
+        />
+        } @case ('id') {
+        <div>{{ this.object ? object.id : "" }}</div>
+        } @case ('price') {
+        <input
+          type="number"
+          [formControlName]="key"
+          [value]="getFormValue(key)"
+        />
+        } @case ('carWeight') {
+        <input
+          type="number"
+          [formControlName]="key"
+          [value]="getFormValue(key)"
+        />
+        }@case (key) {
+        <input
+          type="text"
+          [formControlName]="key"
+          [value]="getFormValue(key)"
+        />
+        } }
       </div>
     </div>
     } }
   </div>
   <div
-    class="metadata-footer justify-self-end text-[0.6rem] font-extralight text-gray-400 text-right"
+    class="metadata-footer flex justify-between items-center justify-self-end text-[0.6rem] font-extralight text-gray-400 text-right"
   >
-    @if (this.object.metadata) {
+    @if (this.object && this.object.metadata) {
     <p class="text-left">
       Last modified:
-      {{ this.object.metadata.dateEdited }} by
-      {{ this.object.metadata.editedBy }}
+      {{ this.object && this.object.metadata.dateEdited }} by
+      {{ this.object && this.object.metadata.editedBy }}
     </p>
     }
+
+    <div
+      class="rounded-lg text-base py-1 px-3 text-white"
+      [ngClass]="{
+        'bg-ui-base-light hover:cursor-pointer': isFormDirty(),
+        'bg-slate-500 hover:cursor-default': !isFormDirty()
+      }"
+      (click)="isFormDirty() && submitEdit()"
+    >
+      @if (isCreateForm) { Submit } @else { Edit }
+    </div>
   </div>
-</div>
+</form>

@@ -7,22 +7,26 @@
         <div class="upper-left">
           <div class="font-thin text-lg">Items catalogue</div>
         </div>
-        <div class="upper-right">
-          <app-search placeholder="Search list..."></app-search>
+        <div class="flex flex-row align-middle items-center gap-5">
+          <div class="upper-right">
+            <app-search placeholder="Search list..."></app-search>
+          </div>
+          <div
+            class="rounded-lg font-light text-center text-sm bg-ui-base-light hover:cursor-pointer p-3 text-white"
+            (click)="openCreateForm()"
+          >
+            Add new
+          </div>
         </div>
       </div>
       <div class="table flex-grow">
-        <app-table
-          [elements]="this.dataSource"
-          [pageIndex]="pageIndex"
-          [keysToDisplay]="keysToDisplay"
-        >
+        <app-table [pageIndex]="pageIndex" [keysToDisplay]="keysToDisplay">
         </app-table>
       </div>
       <mat-paginator
         class="bg-none"
         [length]="itemsLength"
-        [pageSize]="itemsPerPage"
+        [pageSizeOptions]="[5]"
         [pageIndex]="this.pageIndex"
         (page)="onPageChanged($event)"
         aria-label="Select page"

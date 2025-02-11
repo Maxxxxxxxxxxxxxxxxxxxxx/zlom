@@ -5,12 +5,12 @@ import { MainComponent } from './layouts/main/main.component';
 import { authGuard } from './auth.guard';
 import { UsersComponent } from './pages/main/users/users.component';
 import { SettingsComponent } from './pages/main/settings/settings.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: AuthComponent,
-    pathMatch: 'full',
   },
   {
     path: 'main',
@@ -23,5 +23,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];

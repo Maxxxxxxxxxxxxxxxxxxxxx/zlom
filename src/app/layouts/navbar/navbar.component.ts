@@ -6,6 +6,7 @@ import { SvgLogoComponent } from '../../ui/svg-logo/svg-logo.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth.service';
 
 interface NavLink {
   readonly title: string;
@@ -28,6 +29,7 @@ interface NavLink {
 export class NavbarComponent {
   private toast: HotToastService = inject(HotToastService);
   private router: Router = inject(Router);
+  private authService: AuthService = inject(AuthService);
 
   navLinks: NavLink[] = [
     { title: 'Dashboard', path: '/main/dashboard', active: true },
@@ -36,6 +38,7 @@ export class NavbarComponent {
   ];
 
   logout() {
+    this.authService.logout();
     this.toast.success('Logged out!');
     this.router.navigate(['login']);
   }
