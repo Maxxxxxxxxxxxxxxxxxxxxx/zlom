@@ -9,14 +9,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
-import AuthRequest from '../../dto/auth-request.dto';
+import AuthRequest from '../../dto/bodies/auth-request.dto';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { Router } from '@angular/router';
+import { Router, TitleStrategy } from '@angular/router';
 import { debounceTime } from 'rxjs';
 
 interface AuthData {
-  username: FormControl<string | null>;
-  password: FormControl<string | null>;
+  readonly username: FormControl<string | null>;
+  readonly password: FormControl<string | null>;
 }
 
 @Component({
@@ -68,6 +68,7 @@ export class LoginFormComponent {
       .pipe(debounceTime(600))
       .subscribe({
         next: (res) => {
+          this.authService.setToken(res.body.token);
           this.toast.success('Logged in!');
           this.router.navigate(['main']);
         },
