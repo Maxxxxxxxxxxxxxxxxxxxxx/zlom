@@ -55,13 +55,25 @@ export class FilterFormComponent {
 
     this.carEntryService.filters.subscribe((filters) => {
       if (filters) {
-        console.log(filters);
-        this.filtersForm.patchValue({
-          ...filters,
-          // make: filters.make?.map(makeString => new FormControl<string | null | undefined>(makeString))
-        });
+        if (filters.make) {
+          filters.make.forEach((makeString, index) => {
+            this.filtersForm.controls.make.setControl(
+              index,
+              new FormControl(makeString)
+            );
+          });
+        }
 
-        console.log(this.filtersForm.value);
+        if (filters.model) {
+          filters.model.forEach((modelString, index) => {
+            this.filtersForm.controls.model.setControl(
+              index,
+              new FormControl(modelString)
+            );
+          });
+        }
+
+        this.filtersForm.patchValue(filters);
       }
     });
   }
