@@ -12,7 +12,6 @@ export class AuthService {
   private isAuthenticated = false;
 
   isLoggedIn() {
-    console.log(localStorage.getItem('token'), localStorage.getItem('user'));
     if (localStorage.getItem('token') && localStorage.getItem('user')) {
       return true;
     }

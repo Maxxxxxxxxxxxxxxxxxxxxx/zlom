@@ -1,4 +1,17 @@
-<div class="relative inline-block w-max-10">
+<div class="relative flex flex-row gap-2 w-max-15">
+  @if (sortDirection === 'sortDesc') {
+  <mat-icon
+    fontIcon="arrow_drop_down"
+    class="hover:cursor-pointer text-slate-400"
+    (click)="switchSortDirection()"
+  />
+  } @else {
+  <mat-icon
+    fontIcon="arrow_drop_up"
+    class="hover:cursor-pointer text-slate-400"
+    (click)="switchSortDirection()"
+  />
+  }
   <select
     [(ngModel)]="active"
     class="text-sm text-slate-400 font-thin focus:outline-none border border-gray-300 p-2 w-full rounded-sm bg-white"

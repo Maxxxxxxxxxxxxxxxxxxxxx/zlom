@@ -127,7 +127,6 @@ export class FilterFormComponent {
   addMake(make?: string): void {
     if (this.filtersForm.controls.make.length > this.maxFormArrayLength) {
       this.toast.info('Maximum value reached');
-      console.log(this.filtersForm.controls.make);
       return;
     }
     this.filtersForm.controls.make.push(

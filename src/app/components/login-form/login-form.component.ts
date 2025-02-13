@@ -74,11 +74,4 @@ export class LoginFormComponent {
       },
     });
   }
-
-  test() {
-    console.log(
-      this.loginForm.controls.username.value,
-      this.loginForm.controls.password.value
-    );
-  }
 }

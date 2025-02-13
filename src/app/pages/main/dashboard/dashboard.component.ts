@@ -15,7 +15,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../service/auth.service';
 import { CarEntryService, Filters } from '../../../service/car-entry.service';
 import { DialogService } from '../../../service/dialog.service';
-import { DropdownComponent } from './dropdown/dropdown.component';
+import {
+  DropdownComponent,
+  SortDirection,
+} from './dropdown/dropdown.component';
 import { Title } from '@angular/platform-browser';
 import { ResizeService } from '../../../service/resize.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -69,7 +72,6 @@ export class DashboardComponent implements OnInit {
     });
 
     this.carEntryService.getCount().subscribe((res) => {
-      console.log(res.body);
       this.itemsLength = res.body;
     });
 
@@ -92,7 +94,6 @@ export class DashboardComponent implements OnInit {
     });
 
     this.resizeService.isSmall.subscribe((width) => {
-      console.log('width:', width);
       this.keysToDisplay =
         width < 640
           ? ['title', 'price', 'entryDate']
@@ -105,13 +106,9 @@ export class DashboardComponent implements OnInit {
         this.carEntryService.setSearchQuery(query!);
         this.carEntryService.refreshCurrentPage();
       });
-
-    console.log('filters: ', this.filters);
   }
 
   handlePaginatorEvent(event: any) {
-    console.log(event);
-
     // change page index event
     if (event.pageIndex != this.pageIndex) {
       this.pageIndex = event.pageIndex;
