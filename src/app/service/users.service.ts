@@ -52,6 +52,12 @@ export class UsersService {
   }
 
   createUser(body: UserDataRequestDTO) {
+    if (!body.contactData?.email && !body.contactData?.phoneNumber)
+      body = {
+        ...body,
+        contactData: null,
+      };
+
     return this.httpClient.post<any>(
       `${environment.apiUrl}/userAccount/`,
       body,
@@ -71,6 +77,12 @@ export class UsersService {
       body = {
         ...body,
         password: null,
+      };
+
+    if (!body.contactData?.email && !body.contactData?.phoneNumber)
+      body = {
+        ...body,
+        contactData: null,
       };
 
     return this.httpClient.put<any>(

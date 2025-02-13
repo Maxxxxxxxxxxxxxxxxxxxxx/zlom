@@ -5,5 +5,5 @@ export interface UserDataRequestDTO {
   readonly contactData?: {
     readonly email: string | null;
     readonly phoneNumber: number | null;
-  };
+  } | null;
 }
