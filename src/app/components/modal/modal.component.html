@@ -24,6 +24,10 @@
       <app-confirm-modal />
       } @case ('filter') {
       <app-filter-form></app-filter-form>
+      } @case ('user') {
+      <app-user-data-form
+        [userId]="this.config?.object.id"
+      ></app-user-data-form>
       } }
     </div>
   </div>

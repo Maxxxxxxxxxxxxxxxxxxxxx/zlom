@@ -1,0 +1,28 @@
+<div class="users-list flex flex-col w-fill mx-5 gap-5 mt-7">
+  @for (user of users; track $index) {
+  <div
+    class="user-card w-max min-h-10 min-w-full border-b-[1px] flex flex-row justify-between"
+  >
+    <div class="left flex flex-row min-w-[20%]">
+      <div class="font-extralight text-lg">
+        {{ user.username }}
+      </div>
+      <div class="text-gray-500 text-xs">({{ user.userRole }})</div>
+    </div>
+    <div
+      class="actions font-extralight text-lg text-gray-400 hover:cursor-pointer"
+      (click)="openUserViewModal(user)"
+    >
+      View
+    </div>
+  </div>
+  }
+  <div class="user-card flex flex-row justify-center w-max min-h-10 min-w-full">
+    <div
+      class="font-extralight text-md text-gray-400 hover:cursor-pointer"
+      (click)="openUserAddModal()"
+    >
+      Add new user...
+    </div>
+  </div>
+</div>

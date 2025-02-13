@@ -5,6 +5,7 @@ import { CarViewFormComponent } from './car-view-form/car-view-form.component';
 import { CarEntryDTO } from '../../dto/car-entry.dto';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { FilterFormComponent } from './filter-form/filter-form.component';
+import { UserDataFormComponent } from './user-data-form/user-data-form.component';
 
 const carEntry = {
   id: 1,
@@ -28,6 +29,7 @@ const carEntry = {
     CarViewFormComponent,
     ConfirmModalComponent,
     FilterFormComponent,
+    UserDataFormComponent,
   ],
   templateUrl: './modal.component.html',
 })
@@ -48,6 +50,8 @@ export class ModalComponent implements OnInit {
       this.isVisible = false;
       return;
     }
+
+    console.log(config);
 
     this.config = {
       title: config.title ?? '',
