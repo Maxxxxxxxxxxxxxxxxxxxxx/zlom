@@ -1,6 +1,6 @@
 @if (isVisible) {
 <div
-  class="flex modal-bg absolute h-full w-full bg-modal-bg content-center items-center justify-center animate-fadeIn backdrop-blur-sm"
+  class="flex z-20 modal-bg absolute h-full w-full bg-modal-bg content-center items-center justify-center animate-fadeIn backdrop-blur-sm"
 >
   <div class="card rounded-lg py-5 shadow-sm bg-white animate-grow">
     <div class="flex flex-col h-full">
@@ -22,6 +22,8 @@
       />
       } @case ('confirm') {
       <app-confirm-modal />
+      } @case ('filter') {
+      <app-filter-form></app-filter-form>
       } }
     </div>
   </div>

@@ -1,16 +1,22 @@
-<div class="m-5 h-fill">
+<div class="mt-[7rem] md:m-5 lg:m-5 xl:m-5 h-fill">
   <div class="card rounded-s py-5 shadow-sm bg-white">
     <div class="flex flex-col animate-fadeIn !0.5s">
       <div
         class="upper flex flex-row items-center gap-5 justify-between mx-5 mb-5"
       >
-        <div class="upper-left">
+        <div class="upper-left hidden md:inline lg:inline xl:inline">
           <div class="font-thin text-lg">Items catalogue</div>
         </div>
         <div class="flex flex-row align-middle items-center gap-5">
+          <app-dropdown [options]="sortByOptions"></app-dropdown>
           <div class="upper-right">
             <app-search placeholder="Search list..."></app-search>
           </div>
+          <mat-icon
+            fontIcon="filter_list"
+            class="hover:cursor-pointer text-slate-400"
+            (click)="openFilterOptions()"
+          ></mat-icon>
           <div
             class="rounded-lg font-light text-center text-sm bg-ui-base-light hover:cursor-pointer p-3 text-white"
             (click)="openCreateForm()"
@@ -20,15 +26,14 @@
         </div>
       </div>
       <div class="table flex-grow">
-        <app-table [pageIndex]="pageIndex" [keysToDisplay]="keysToDisplay">
-        </app-table>
+        <app-table [keysToDisplay]="keysToDisplay"> </app-table>
       </div>
       <mat-paginator
         class="bg-none"
         [length]="itemsLength"
-        [pageSizeOptions]="[5]"
+        [pageSizeOptions]="pageSizeOptions"
         [pageIndex]="this.pageIndex"
-        (page)="onPageChanged($event)"
+        (page)="handlePaginatorEvent($event)"
         aria-label="Select page"
       >
       </mat-paginator>

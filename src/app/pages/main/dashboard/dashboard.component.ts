@@ -13,8 +13,17 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { TableComponent } from '../../../ui/table/table.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../service/auth.service';
-import { CarEntryService } from '../../../service/car-entry.service';
+import { CarEntryService, Filters } from '../../../service/car-entry.service';
 import { DialogService } from '../../../service/dialog.service';
+import { DropdownComponent } from './dropdown/dropdown.component';
+import { Title } from '@angular/platform-browser';
+import { ResizeService } from '../../../service/resize.service';
+
+interface PageData {
+  readonly pageIndex: number;
+  readonly pageSize: number;
+  readonly length: number;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +35,7 @@ import { DialogService } from '../../../service/dialog.service';
     SearchComponent,
     TableComponent,
     MatPaginatorModule,
+    DropdownComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -33,30 +43,39 @@ import { DialogService } from '../../../service/dialog.service';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  private resizeService: ResizeService = inject(ResizeService);
   private authService: AuthService = inject(AuthService);
   private carEntryService: CarEntryService = inject(CarEntryService);
   private dialogService: DialogService = inject(DialogService);
   private toast: HotToastService = inject(HotToastService);
 
-  private maxItems = 10;
-
   keysToDisplay = ['title', 'make', 'model', 'price', 'location', 'entryDate'];
+  sortByOptions = ['title', 'make', 'entryDate', 'price'];
 
-  itemsPerPage: number = 10;
+  hideLocationRow: boolean = false;
+
+  pageSizeOptions: number[] = [10];
+  pageSize: number = 10;
   itemsLength: number = 0;
   pageIndex: number = 0;
 
+  filters: Filters = {};
+
   ngOnInit(): void {
+    this.carEntryService.filters.subscribe((filters) => {
+      this.filters = filters;
+    });
+
     this.carEntryService.getCount().subscribe((res) => {
       console.log(res.body);
       this.itemsLength = res.body;
     });
 
-    this.carEntryService.getPage(this.pageIndex, this.maxItems).subscribe({
+    this.carEntryService.getPage(this.pageIndex, this.pageSize).subscribe({
       next: (res) => {
         this.carEntryService.setEntries(res.body);
 
-        // if (res.body.length < 10) this.itemsPerPage = res.body.length;
+        if (res.body.length < 10) this.pageSize = res.body.length;
       },
       error: (res) => {
         this.toast.error('Failed to load data');
@@ -66,21 +85,34 @@ export class DashboardComponent implements OnInit {
 
     this.carEntryService.pageData.subscribe((data) => {
       this.pageIndex = data.pageIndex;
-      this.itemsLength = data.itemsLength;
-      this.itemsPerPage = data.itemsPerPage;
+      this.itemsLength = data.length;
+      this.pageSize = data.pageSize;
     });
+
+    this.resizeService.isSmall.subscribe((width) => {
+      console.log('width:', width);
+      this.keysToDisplay =
+        width < 640
+          ? ['title', 'price', 'entryDate']
+          : ['title', 'make', 'model', 'price', 'location', 'entryDate'];
+    });
+
+    console.log('filters: ', this.filters);
   }
 
-  onPageChanged(event: any) {
-    this.pageIndex = event.pageIndex;
-    console.log(this.pageIndex);
+  handlePaginatorEvent(event: any) {
+    console.log(event);
 
-    this.carEntryService
-      .getPage(this.pageIndex, this.maxItems)
-      .subscribe((res) => {
-        this.carEntryService.setEntries(res.body);
-        // this.dataSource = res.body;
-      });
+    // change page index event
+    if (event.pageIndex != this.pageIndex) {
+      this.pageIndex = event.pageIndex;
+
+      this.carEntryService
+        .getPage(this.pageIndex, this.pageSize)
+        .subscribe((res) => {
+          this.carEntryService.setEntries(res.body);
+        });
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -88,34 +120,40 @@ export class DashboardComponent implements OnInit {
     if (event.key === 'ArrowLeft') {
       if (this.pageIndex === 0) {
         return;
-      } else this.setPage(this.pageIndex - 1);
+      } else this.setPage({ pageIndex: this.pageIndex - 1 });
     } else if (event.key === 'ArrowRight') {
       if (
-        this.pageIndex * this.itemsPerPage + this.itemsPerPage + 1 >
+        this.pageIndex * this.pageSize + this.pageSize + 1 >
         this.itemsLength
       ) {
         return;
-      } else this.setPage(this.pageIndex + 1);
+      } else this.setPage({ pageIndex: this.pageIndex + 1 });
     }
   }
 
-  setPage(newPageIndex: number) {
-    this.paginator.pageIndex = newPageIndex;
+  setPage(data: Partial<PageData>) {
+    this.paginator.pageIndex = data.pageIndex!;
+
     this.paginator.page.next({
-      pageIndex: this.paginator.pageIndex,
-      pageSize: this.paginator.pageSize,
-      length: this.paginator.length,
+      pageIndex: data.pageIndex ?? this.paginator.pageIndex,
+      pageSize: data.pageSize ?? this.paginator.pageSize,
+      length: data.length ?? this.paginator.length,
     });
 
     this.carEntryService.setPageData({
-      pageIndex: this.pageIndex,
-      itemsPerPage: this.itemsPerPage,
-      itemsLength: this.itemsLength,
+      pageIndex: data.pageIndex ?? this.pageIndex,
+      pageSize: data.pageSize ?? this.pageSize,
+      length: data.length ?? this.itemsLength,
     });
   }
 
+  search() {}
+
   openCreateForm() {
-    // this.carEntryService.refreshCurrentPage();
     this.dialogService.open({ type: 'car', title: 'Add new' });
+  }
+
+  openFilterOptions() {
+    this.dialogService.open({ type: 'filter', title: 'Filter data' });
   }
 }

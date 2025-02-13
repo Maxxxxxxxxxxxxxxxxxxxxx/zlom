@@ -2,7 +2,9 @@
   class="lower flex flex-col mx-5 flex-grow justify-between"
   [formGroup]="carForm"
 >
-  <div class="content min-w-[400px] mb-2">
+  <div
+    class="content w-[300px] sm:w-[300px] md:w-[400px] lg:w-[500px] xl:w-[500px] mb-2"
+  >
     @for (key of carKeys; track $index) { @if (key != 'metadata') {
     <div
       class="row flex font-light text-sm flex-row border-b-[1px] border-gray-200 py-2"

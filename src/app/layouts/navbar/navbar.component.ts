@@ -8,7 +8,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 
-interface NavLink {
+export interface NavLink {
   readonly title: string;
   readonly path: string;
   readonly active: boolean;

@@ -1,29 +1,37 @@
-<table class="font-thin text-ui-base-font-dark w-full table-fixed">
+<table
+  class="font-thin text-ui-base-font-dark w-full min-w-[500px] table-fixed sm:text-xs md:text-xs lg:text-lg"
+>
   <tr class="bg-slate-100">
-    <th class="pl-4 text-left font-thin py-1 text-m min-w-14">#</th>
+    <th
+      class="pl-2 sm:pl-2 md:pl-4 lg:pl-4 text-left font-thin py-1 text-xs lg:text-m w-9 sm:w-9 md:w-9 xl:w-14"
+    >
+      #
+    </th>
     @for (key of this.keysToDisplay; track key) {
-    <th class="pl-4 text-left font-thin py-1 text-m">{{ key }}</th>
+    <th class="pl-2 max-w-10 text-left font-thin py-1 text-xs lg:text-m">
+      {{ key }}
+    </th>
     }
-    <th class="pl-4 text-left font-thin py-1 text-m">actions</th>
+    <th class="pl-2 text-left font-thin py-1 text-xs lg:text-m">actions</th>
   </tr>
   @for (element of this.elements; track $index; let i = $index) {
   <tr class="mt-5">
     <td
-      class="pl-4 border-b-2 border-slate-100 text-gray-500 py-3 text-sm text-nowrap overflow-hidden"
+      class="pl-2 w-5 lg:pl-2 sm:pl-2 border-b-2 border-slate-100 text-gray-500 py-3 text-xs lg:text-m text-nowrap overflow-hidden"
     >
-      {{ i + 1 + pageIndex * 10 }}
+      {{ i + 1 + pageData.pageIndex * pageData.pageSize }}
     </td>
     @for(key of this.keysToDisplay; let i = $index; track key) {
     <td
-      class="pl-4 border-b-2 border-slate-100 text-gray-500 py-3 text-sm text-nowrap overflow-hidden"
+      class="pl-2 border-b-2 border-slate-100 text-gray-500 py-3 text-xs lg:text-sm text-nowrap overflow-hidden"
     >
       {{ element[key] }}
     </td>
     }
     <td
-      class="pl-4 border-b-2 border-slate-100 text-gray-500 py-3 text-sm min-w-32 text-nowrap"
+      class="pl-2 border-b-2 border-slate-100 text-gray-500 py-3 text-xs lg:text-sm min-w-32 text-nowrap"
     >
-      <div class="flex gap-5 justify-between pr-5">
+      <div class="flex gap-1 lg:gap-5 justify-between pr-5">
         <div class="hover:cursor-pointer" (click)="openDialog(element, 'car')">
           Edit
         </div>

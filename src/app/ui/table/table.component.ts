@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { DialogContentType, DialogService } from '../../service/dialog.service';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { CarEntryService } from '../../service/car-entry.service';
+import { CarEntryService, PageData } from '../../service/car-entry.service';
 
 @Component({
   selector: 'app-table',
@@ -15,9 +15,13 @@ export class TableComponent implements OnChanges, OnInit {
   private toast: HotToastService = inject(HotToastService);
 
   elements: any[] = [];
-  @Input() pageIndex: number = 0;
-  @Input() keysToDisplay: string[] = [];
+  pageData: PageData = {
+    pageIndex: 0,
+    pageSize: 5,
+    length: 0,
+  };
 
+  @Input() keysToDisplay: string[] = [];
   keys: string[] = [];
 
   openConfirmDeleteModal(entryId: number) {
@@ -25,7 +29,7 @@ export class TableComponent implements OnChanges, OnInit {
       this.entriesService.delete(entryId).subscribe({
         next: (res) => {
           this.toast.success('Deleted');
-          this.entriesService.refreshCurrentPage(-1);
+          this.entriesService.refreshCurrentPage();
         },
         error: (res) => {
           this.toast.error('Error deleting entry');
@@ -52,6 +56,10 @@ export class TableComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.entriesService.entries.subscribe((entries) => {
       this.elements = entries;
+    });
+
+    this.entriesService.pageData.subscribe((data) => {
+      if (data) this.pageData = data;
     });
   }
 

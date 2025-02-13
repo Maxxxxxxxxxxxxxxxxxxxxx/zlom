@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CarViewFormComponent } from './car-view-form/car-view-form.component';
 import { CarEntryDTO } from '../../dto/car-entry.dto';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { FilterFormComponent } from './filter-form/filter-form.component';
 
 const carEntry = {
   id: 1,
@@ -22,7 +23,12 @@ const carEntry = {
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [MatIconModule, CarViewFormComponent, ConfirmModalComponent],
+  imports: [
+    MatIconModule,
+    CarViewFormComponent,
+    ConfirmModalComponent,
+    FilterFormComponent,
+  ],
   templateUrl: './modal.component.html',
 })
 export class ModalComponent implements OnInit {

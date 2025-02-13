@@ -1,10 +1,12 @@
 <div
-  class="nav bg-ui-base-dark text-white text-sm max-w-[14rem] left-0 top-0 h-screen min-w-[13rem] flex flex-col justify-between"
+  class="nav hidden sm:hidden md:flex lg:flex flex-col fixed bg-ui-base-dark text-white text-sm w-[7rem] sm:w-[7rem] lg:w-[13rem] left-0 top-0 h-screen justify-between"
 >
   <div class="upper">
-    <div class="logo-wrapper p-5 pt-10 flex flex-row items-center">
-      <app-svg-logo clas="w-15 h-15" />
-      <div class="ml-3 font-thin text-lg">CMS & co.</div>
+    <div
+      class="logo-wrapper p-5 pt-10 flex flex-col justify-center items-center"
+    >
+      <app-svg-logo class="w-15 h-15" />
+      <div class="mt-2 font-thin text-lg hidden lg:inline">CMS & co.</div>
     </div>
     <div class="mt-10 flex flex-col gap-10">
       @for (link of navLinks; track link) {

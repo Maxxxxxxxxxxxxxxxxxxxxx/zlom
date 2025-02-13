@@ -1,18 +1,33 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, Observable, Subject } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { CarEntryDTO } from '../dto/car-entry.dto';
 import { AuthService } from './auth.service';
 import { CarUpdateRequest } from '../dto/bodies/car-update-request.dto';
 import { CarCreateRequest } from '../dto/bodies/car-create-request.dto';
 
-interface PageData {
+export interface PageData {
   readonly pageIndex: number;
-  readonly itemsPerPage: number;
-  readonly itemsLength: number;
+  readonly pageSize: number;
+  readonly length: number;
 }
 
+export interface Filters {
+  readonly search?: string;
+  readonly isDamaged?: boolean;
+  readonly make?: string[];
+  readonly model?: string[];
+  readonly minPrice?: number;
+  readonly maxPrice?: number;
+  readonly sortAsc?: string;
+  readonly sortDesc?: string;
+}
+
+export interface SortFilters {
+  readonly sortAsc?: string;
+  readonly sortDesc?: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -21,19 +36,20 @@ export class CarEntryService {
   private entries$: Subject<CarEntryDTO[]> = new BehaviorSubject(
     [] as CarEntryDTO[]
   );
+  private filters$: Subject<Filters> = new BehaviorSubject({} as Filters);
   private pageData$: Subject<PageData> = new BehaviorSubject({
-    itemsPerPage: 10,
+    pageSize: 10,
     pageIndex: 0,
-    itemsLength: 0,
+    length: 0,
   });
 
   private pageData_: PageData = {
-    itemsPerPage: 10,
+    pageSize: 10,
     pageIndex: 0,
-    itemsLength: 0,
+    length: 0,
   };
 
-  private authService: AuthService = inject(AuthService);
+  private filters_: Filters = {};
 
   get pageData() {
     return this.pageData$.asObservable();
@@ -41,6 +57,45 @@ export class CarEntryService {
 
   get entries() {
     return this.entries$.asObservable();
+  }
+
+  get filters() {
+    return this.filters$.asObservable();
+  }
+
+  get params() {
+    const {
+      search,
+      isDamaged,
+      make,
+      model,
+      minPrice,
+      maxPrice,
+      sortAsc,
+      sortDesc,
+    } = this.filters_;
+
+    let params = new HttpParams();
+
+    params = search ? params.append('search', search) : params;
+    params =
+      isDamaged === true ? params.append('isDamaged', !isDamaged) : params;
+    params = minPrice ? params.append('minPrice', minPrice) : params;
+    params = maxPrice ? params.append('maxPrice', maxPrice) : params;
+
+    make &&
+      make.forEach((m) => {
+        params = params.append('make', m);
+      });
+    model &&
+      model.forEach((m) => {
+        params = params.append('model', m);
+      });
+
+    params = sortAsc ? params.append('sortAsc', sortAsc) : params;
+    params = sortDesc ? params.append('sortDesc', sortDesc) : params;
+
+    return params;
   }
 
   setPageData(data: PageData) {
@@ -52,6 +107,21 @@ export class CarEntryService {
 
   setEntries(entries: CarEntryDTO[]) {
     this.entries$.next(entries);
+  }
+
+  setFilters(data: Filters) {
+    this.filters$.next(data);
+    this.filters_ = data;
+  }
+
+  setSortFilters(data: SortFilters) {
+    const newFilters = {
+      ...this.filters_,
+      sortAsc: data.sortAsc,
+      sortDesc: data.sortDesc,
+    };
+    this.filters$.next(newFilters);
+    this.filters_ = newFilters;
   }
 
   getDashboard(): Observable<any> {
@@ -67,20 +137,23 @@ export class CarEntryService {
   }
 
   getPage(pageIndex: number, pageSize: number): Observable<any> {
-    return this.httpClient.get<any>(
-      `${environment.apiUrl}/carEntries/page?pageIndex=${pageIndex}&pageSize=${pageSize}`,
-      {
-        observe: 'response',
-        headers: new HttpHeaders({
-          Authorization: localStorage.getItem('token')!,
-        }),
-      }
-    );
+    let params = this.params;
+
+    params = params.append('pageIndex', pageIndex);
+    params = params.append('pageSize', pageSize);
+
+    return this.httpClient.get<any>(`${environment.apiUrl}/carEntries/page`, {
+      params,
+      observe: 'response',
+      headers: new HttpHeaders({
+        Authorization: localStorage.getItem('token')!,
+      }),
+    });
   }
 
-  refreshCurrentPage(inc?: number): void {
+  refreshCurrentPage(): void {
     this.pageData.subscribe((data) => {
-      this.getPage(data.pageIndex, data.itemsPerPage).subscribe((res) => {
+      this.getPage(data.pageIndex, data.pageSize).subscribe((res) => {
         this.setEntries(res.body);
       });
     });
@@ -88,7 +161,7 @@ export class CarEntryService {
     this.getCount().subscribe((res) => {
       this.pageData$.next({
         ...this.pageData_,
-        itemsLength: res.body,
+        length: res.body,
       });
     });
   }
@@ -117,6 +190,8 @@ export class CarEntryService {
     );
   }
 
+  
+
   update(req: CarUpdateRequest): Observable<any> {
     return this.httpClient.put<any>(`${environment.apiUrl}/carEntries/`, req, {
       observe: 'response',
@@ -137,6 +212,7 @@ export class CarEntryService {
 
   getCount(): Observable<any> {
     return this.httpClient.get<any>(`${environment.apiUrl}/carEntries/count`, {
+      params: this.params,
       observe: 'response',
       headers: new HttpHeaders({
         Authorization: localStorage.getItem('token')!,

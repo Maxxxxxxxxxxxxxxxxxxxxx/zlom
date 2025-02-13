@@ -1,0 +1,12 @@
+<div class="relative inline-block w-max-10">
+  <select
+    [(ngModel)]="active"
+    class="text-sm text-slate-400 font-thin focus:outline-none border border-gray-300 p-2 w-full rounded-sm bg-white"
+  >
+    @for (option of options; track $index) {
+    <option [value]="option" (click)="handleClickOption()">
+      {{ option }}
+    </option>
+    }
+  </select>
+</div>

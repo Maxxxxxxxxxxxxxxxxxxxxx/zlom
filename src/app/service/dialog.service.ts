@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-export type DialogContentType = 'car' | 'user' | 'confirm';
+export type DialogContentType = 'car' | 'user' | 'confirm' | 'filter';
 
 export interface DialogConfig {
   readonly title?: string;

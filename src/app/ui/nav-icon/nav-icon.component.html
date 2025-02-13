@@ -1,0 +1,13 @@
+<div
+  class="icon-wrapper w-[40px] pb-[2rem] mt-[2rem] flex justify-center items-center"
+  [ngClass]="{
+    'border-b-4 border-ui-base-red text-white': active,
+    'border-b-0 border-transparent': !active
+  }"
+>
+  <mat-icon
+    class="text-white scale-150"
+    [fontIcon]="matIcon"
+    (click)="handleClick()"
+  />
+</div>

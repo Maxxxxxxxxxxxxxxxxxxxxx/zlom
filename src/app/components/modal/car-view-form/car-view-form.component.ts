@@ -152,7 +152,7 @@ export class CarViewFormComponent implements OnInit {
         const request = this.carForm.value;
         this.carEntryService.create(request).subscribe({
           next: () => {
-            this.carEntryService.refreshCurrentPage(1);
+            this.carEntryService.refreshCurrentPage();
             this.toast.success('Created');
             this.dialogService.close();
           },

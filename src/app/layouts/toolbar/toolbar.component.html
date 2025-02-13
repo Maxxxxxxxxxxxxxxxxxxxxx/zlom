@@ -1,13 +1,17 @@
 <div
-  class="flex flex-row justify-between toolbar p-5 mb-2 flex-grow max-h-24 bg-white min-h-16 align-middle items-center gap-16"
+  class="flex flex-row fixed sm:fixed md:static lg:static xl:static w-full justify-between toolbar md:p-5 lg:p-5 xl:p-5 mb-0 md:mb-2 lg:mb-2 xl:mb-2 flex-grow max-h-24 bg-ui-base-dark sm:bg-ui-base-dark md:bg-white lg:bg-white min-h-16 align-middle items-center gap-16"
 >
   <div class="left flex flex-row items-center gap-3">
-    <div class="wrapper text-ui-base-font-light font-thin text-sm">
-      Dashboard overview
+    <div
+      class="hidden md:inline lg:inline wrapper text-ui-base-font-light font-thin text-sm"
+    >
+      Overview
     </div>
-    <form action="">
-      <app-search placeholder="Search all..." />
-    </form>
   </div>
-  <div class="right"></div>
+  <div class="flex md:hidden lg:hidden xl:hidden gap-7">
+    @for (link of navLinks; track $index) {
+    <app-nav-icon [matIcon]="link.matIcon" [path]="link.path" />
+    }
+  </div>
+  <div class="right text-gray-400 font-thin">Logged in as {{ user }}</div>
 </div>
