@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, debounceTime, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, debounceTime, Observable, Subject, take } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { CarEntryDTO } from '../dto/car-entry.dto';
 import { AuthService } from './auth.service';
@@ -152,18 +152,22 @@ export class CarEntryService {
   }
 
   refreshCurrentPage(): void {
-    this.pageData.subscribe((data) => {
-      this.getPage(data.pageIndex, data.pageSize).subscribe((res) => {
-        this.setEntries(res.body);
-      });
+    this.pageData.pipe(take(1)).subscribe((data) => {
+      this.getPage(data.pageIndex, data.pageSize)
+        .pipe(take(1))
+        .subscribe((res) => {
+          this.setEntries(res.body);
+        });
     });
 
-    this.getCount().subscribe((res) => {
-      this.pageData$.next({
-        ...this.pageData_,
-        length: res.body,
+    this.getCount()
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.pageData$.next({
+          ...this.pageData_,
+          length: res.body,
+        });
       });
-    });
   }
 
   getSingleObject(id: number): Observable<any> {
@@ -190,8 +194,6 @@ export class CarEntryService {
     );
   }
 
-  
-
   update(req: CarUpdateRequest): Observable<any> {
     return this.httpClient.put<any>(`${environment.apiUrl}/carEntries/`, req, {
       observe: 'response',
@@ -217,6 +219,13 @@ export class CarEntryService {
       headers: new HttpHeaders({
         Authorization: localStorage.getItem('token')!,
       }),
+    });
+  }
+
+  setSearchQuery(query: string) {
+    this.setFilters({
+      ...this.filters_,
+      search: query,
     });
   }
 
