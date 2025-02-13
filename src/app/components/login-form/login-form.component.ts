@@ -11,7 +11,7 @@ import {
 import { AuthService } from '../../service/auth.service';
 import AuthRequest from '../../dto/bodies/auth-request.dto';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { Router, TitleStrategy } from '@angular/router';
+import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 
 interface AuthData {
@@ -63,19 +63,16 @@ export class LoginFormComponent {
       password: this.loginForm.controls.password.value,
     } as AuthRequest;
 
-    this.authService
-      .login(authRequest)
-      .pipe(debounceTime(600))
-      .subscribe({
-        next: (res) => {
-          this.authService.setToken(res.body.token);
-          this.toast.success('Logged in!');
-          this.router.navigate(['main']);
-        },
-        error: (res) => {
-          this.toast.error(res.error.message ?? 'An error has occurred!');
-        },
-      });
+    this.authService.login(authRequest).subscribe({
+      next: (res) => {
+        this.authService.setUser(res.body.token, res.body.username);
+        this.toast.success('Logged in!');
+        this.router.navigate(['main']);
+      },
+      error: (res) => {
+        this.toast.error(res.error.message ?? 'An error has occurred!');
+      },
+    });
   }
 
   test() {

@@ -11,16 +11,17 @@ export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
   private isAuthenticated = false;
 
-  // constructor() {
-  //   this.isAuthenticated = !!localStorage.getItem.token;
-  // }
-
-  isUserAuthenticated() {
-    return this.isAuthenticated;
+  isLoggedIn() {
+    console.log(localStorage.getItem('token'), localStorage.getItem('user'));
+    if (localStorage.getItem('token') && localStorage.getItem('user')) {
+      return true;
+    }
+    return false;
   }
 
-  setToken(token: string) {
+  setUser(token: string, username: string) {
     localStorage.setItem('token', `Bearer ${token}`);
+    localStorage.setItem('user', username);
   }
 
   logout(): void {
