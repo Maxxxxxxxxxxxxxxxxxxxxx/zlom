@@ -17,13 +17,10 @@ export class UsersListComponent implements OnInit {
   users: UserDataDTO[] = [];
 
   ngOnInit(): void {
-    this.usersService
-      .getUsersList()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res.body) this.users = res.body;
-        console.log(res.body);
-      });
+    this.usersService.refreshUsers();
+    this.usersService.users.subscribe((users) => {
+      if (users) this.users = users;
+    });
   }
 
   openUserViewModal(user: UserDataDTO) {

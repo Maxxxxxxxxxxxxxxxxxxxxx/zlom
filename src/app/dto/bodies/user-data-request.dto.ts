@@ -1,9 +1,9 @@
 export interface UserDataRequestDTO {
-  readonly id?: number;
-  readonly username?: string;
-  readonly password?: string;
+  readonly id?: number | null;
+  readonly username?: string | null;
+  readonly password?: string | null;
   readonly contactData?: {
-    readonly email: string;
-    readonly phoneNumber: number;
+    readonly email: string | null;
+    readonly phoneNumber: number | null;
   };
 }
