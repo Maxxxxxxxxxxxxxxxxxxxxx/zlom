@@ -18,6 +18,8 @@ import { DialogService } from '../../../service/dialog.service';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { Title } from '@angular/platform-browser';
 import { ResizeService } from '../../../service/resize.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 interface PageData {
   readonly pageIndex: number;
@@ -32,10 +34,10 @@ interface PageData {
     MatCardModule,
     MatIconModule,
     MatTableModule,
-    SearchComponent,
     TableComponent,
     MatPaginatorModule,
     DropdownComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -52,8 +54,8 @@ export class DashboardComponent implements OnInit {
   keysToDisplay = ['title', 'make', 'model', 'price', 'location', 'entryDate'];
   sortByOptions = ['title', 'make', 'entryDate', 'price'];
 
+  searchControl = new FormControl<string>('');
   hideLocationRow: boolean = false;
-
   pageSizeOptions: number[] = [10];
   pageSize: number = 10;
   itemsLength: number = 0;
@@ -96,6 +98,13 @@ export class DashboardComponent implements OnInit {
           ? ['title', 'price', 'entryDate']
           : ['title', 'make', 'model', 'price', 'location', 'entryDate'];
     });
+
+    this.searchControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((query) => {
+        this.carEntryService.setSearchQuery(query!);
+        this.carEntryService.refreshCurrentPage();
+      });
 
     console.log('filters: ', this.filters);
   }

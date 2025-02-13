@@ -10,7 +10,12 @@
         <div class="flex flex-row align-middle items-center gap-5">
           <app-dropdown [options]="sortByOptions"></app-dropdown>
           <div class="upper-right">
-            <app-search placeholder="Search list..."></app-search>
+            <input
+              type="text"
+              placeholder="Search..."
+              [formControl]="searchControl"
+              class="search text-sm font-thin focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 border border-gray-300 p-2 w-full rounded-sm transition-all duration-200 ease-in-out"
+            />
           </div>
           <mat-icon
             fontIcon="filter_list"
