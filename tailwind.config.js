@@ -10,6 +10,10 @@ module.exports = {
         "ui-base-light": "var(--ui-base-light)",
         "modal-bg": "var(--modal-bg)",
       },
+      width: {
+        "navbar-l": "13rem",
+        "navbar-s": "8rem",
+      },
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
