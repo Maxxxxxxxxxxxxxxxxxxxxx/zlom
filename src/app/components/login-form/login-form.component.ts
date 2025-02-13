@@ -65,7 +65,11 @@ export class LoginFormComponent {
 
     this.authService.login(authRequest).subscribe({
       next: (res) => {
-        this.authService.setUser(res.body.token, res.body.username);
+        this.authService.setUser(
+          res.body.token,
+          res.body.username,
+          res.body.role
+        );
         this.toast.success('Logged in!');
         this.router.navigate(['main']);
       },

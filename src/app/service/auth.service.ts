@@ -18,9 +18,10 @@ export class AuthService {
     return false;
   }
 
-  setUser(token: string, username: string) {
+  setUser(token: string, username: string, role: string) {
     localStorage.setItem('token', `Bearer ${token}`);
     localStorage.setItem('user', username);
+    localStorage.setItem('role', role)
   }
 
   logout(): void {
