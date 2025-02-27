@@ -145,20 +145,18 @@ export class CarEntryService {
     return this.httpClient.get<any>(`${environment.apiUrl}/carEntries/page`, {
       params,
       observe: 'response',
-      headers: new HttpHeaders({
-        Authorization: localStorage.getItem('token')!,
-      }),
+      // headers: new HttpHeaders({
+      //   Authorization: localStorage.getItem('token')!,
+      // }),
     });
   }
 
   refreshCurrentPage(): void {
-    this.pageData.pipe(take(1)).subscribe((data) => {
-      this.getPage(data.pageIndex, data.pageSize)
-        .pipe(take(1))
-        .subscribe((res) => {
-          this.setEntries(res.body);
-        });
-    });
+    this.getPage(this.pageData_.pageIndex, this.pageData_.pageSize)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.setEntries(res.body);
+      });
 
     this.getCount()
       .pipe(take(1))
